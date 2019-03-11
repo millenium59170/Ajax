@@ -8,7 +8,9 @@
 </head>
 <body>
     <h1>Mon titre</h1>
-
+<button
+type= "button" id="button">Clique ICI
+</button>
 
     <script> 
     //on instancie le moteur AJAX
@@ -31,6 +33,14 @@ xhr.open('GET', './worker.php');
     //Executer une requete HTTP
     xhr.open('GET', './worker.php');
     xhr.send();
+
+var button = document.getElementById('button');
+button.addEventListener('click', function(){
+    xhr.open('GET', './worker.php');
+    xhr.send();
+
+});
+    
     </script>
 </body>
 </html>

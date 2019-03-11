@@ -7,7 +7,8 @@ $sentences = [
     'Great server',
     'Amazing ajax request',
     'A random sentence',
-    'Sentence generator'
+    'Sentence generator',
+    'bitch with big asses'
 ];
 
 echo $sentences[array_rand($sentences)];
