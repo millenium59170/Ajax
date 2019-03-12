@@ -1,38 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-</head>
-<body>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <!--
+        Formulaire:
+        1. Ajouter Bootstrap sur la page.
+        2. Ajouter un formulaire en POST avec deux champs (Nom et message).
+        3. Le formulaire sera traité sur le fichier worker.php (action).
+        4. On va vérifier que le nom et le message fasse au moins 2 caractères.
+        5. Si le formulaire est valide, on affiche "Succès".
+        6. S'il y a des erreurs, on les affiche.
+        7. AJAX en BONUS
+    -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6 offset-3">
+                <form action="./worker.php" method="post">
+                    <div class="form-group">
+                        <label for="name">Nom :</label>
+                        <input type="text" name="name" id="name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message :</label>
+                        <input type="text" name="message" id="message" class="form-control">
+                    </div>
+                    <button class="btn btn-primary btn-block">Envoyer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <h1></h1>
+    <ul id="success"></ul>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
     
-<!--
-    Formulaire avec AJAX:
-    1. Ajouter bootstrap
+        var form = $('form');
 
+        form.on('submit', function (event) {
+            // On n'exécute pas la requête POST directement
+            event.preventDefault();
 
+            var formData = form.serialize(); // On récupère les données du formulaire
 
-
-    2. Ajouter le formulaire POST avec deux champs (nom prenom)
-    3. Le formulaire sera traiter sur le fichier worker.php (action)
-    4. On va verifier que le nom et le msg fasse au moin 2 caracteres
-    5. Si le formulaire est valide, on affiche "Succes"
-    6. Si il y a des erreurs, on les affiche
-
--->
-
-
-<form method="post" action="worker.php"> 
-Nom : <input type="text" name="nom" size="12"><br> 
-Prénom : <input type="text" name="prenom" size="12"> 
-<input type="submit" value="OK"> 
-
-
-</body>
+            // On exécute la requête POST via AJAX
+            $.ajax({
+                type: 'POST',
+                url: form.attr('action'),
+                data: formData,
+                // On peut forcer le contenu en JSON si le serveur
+                // ne renvoie pas la bonne en-tête
+                // dataType: 'json'
+                beforeSend: function () {
+                    $('h1').html('Chargement en cours...');
+                },
+                complete: function () {
+                    $('h1').html('');
+                }
+            }).done(function (response) {
+                if (response.success) {
+                    var message = response.success;
+                    $('#success').append($('<li>'+message.name+' : '+message.message+'</li>'));
+                }
+                
+                if (response.errors) {
+                    console.log(response.errors);
+                }
+            });
+        });
+    
+    </script>
+  </body>
 </html>
