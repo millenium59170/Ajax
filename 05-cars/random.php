@@ -34,19 +34,19 @@ $cars =
     ],
     [
         "brand" => "Citroen",
-        "model" => "visa",
+        "model" => "Visa",
         "picture" => "visa.png",
         "price" => 1990,  
     ],
     [
         "brand" => "Dacia",
-        "model" => "logan",
+        "model" => "Logan",
         "picture" => "logan.png",
         "price" => 2890,  
     ],
     [
         "brand" => "Bugatti",
-        "model" => "veron",
+        "model" => "Veyron",
         "picture" => "veron.png",
         "price" => 149790,  
     ],
